@@ -4,7 +4,26 @@ Dashboard para visualização de métricas de campanhas Meta Ads (Facebook/Insta
 
 ## 🚀 Início Rápido
 
-### Opção 1: Docker (Recomendado) 🐳
+### Opção 1: Docker Automático (Recomendado para MacBook Air) 🐳⚡
+
+**Ideal para:** Máquinas com pouca RAM (8GB). Inicia Docker automaticamente e fecha quando terminar.
+
+```bash
+meta-docker
+```
+
+Quando terminar de usar:
+```bash
+meta-stop
+```
+
+**Isso irá:**
+- ✅ Iniciar Docker Desktop automaticamente (se não estiver rodando)
+- ✅ Subir containers em background
+- ✅ Abrir navegador automaticamente
+- ✅ Parar containers E fechar Docker (libera RAM!)
+
+### Opção 2: Docker Manual 🐳
 
 **Vantagens:** Isolado, versionado, consistente, sem conflitos de dependências.
 
@@ -17,7 +36,7 @@ Acesse: http://localhost:3000
 
 Para parar: `Ctrl+C` ou `docker-compose down`
 
-### Opção 2: Local (Script Automático)
+### Opção 3: Local (Script Automático)
 
 **Primeira vez ou após reiniciar o computador?**
 
@@ -36,7 +55,35 @@ O script irá:
 
 - **Tutorial Obsidian**: `~/obsidian_vault_agencia/Meta Ads Dashboard - Tutorial de Inicialização.md`
 - **GitHub**: https://github.com/pedromazzei/meta-ads-dashboard
+- **Versão Atual**: v1.0.0
 - **Git + Docker**: Ver seções abaixo
+
+## 💾 Gerenciamento de RAM (MacBook Air M1 8GB)
+
+### Problema
+Docker Desktop consome ~500MB-1GB de RAM rodando em segundo plano, mesmo sem containers ativos.
+
+### Solução
+Use os scripts automáticos que iniciam/param o Docker apenas quando necessário:
+
+```bash
+# Inicia Docker + Containers automaticamente
+meta-docker
+
+# Para containers E fecha Docker (libera RAM)
+meta-stop
+```
+
+### Desabilitar Auto-Start do Docker
+
+Para evitar que Docker inicie automaticamente ao ligar o Mac:
+
+1. Abra o Docker Desktop
+2. Vá em **Settings** (ícone de engrenagem)
+3. Desmarque: **"Start Docker Desktop when you sign in to your computer"**
+4. Clique em **Apply & Restart**
+
+Agora o Docker só rodará quando você executar `meta-docker`!
 
 ## 🐳 Docker - Guia Rápido
 

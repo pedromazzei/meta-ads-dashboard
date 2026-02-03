@@ -1,0 +1,17 @@
+# Backend Dockerfile (Development) - Com Hot Reload
+FROM node:18-alpine
+
+# Diretório de trabalho
+WORKDIR /app
+
+# Copiar package.json e package-lock.json
+COPY package*.json ./
+
+# Instalar todas as dependências (incluindo devDependencies)
+RUN npm install
+
+# Expor porta do backend
+EXPOSE 3001
+
+# Comando para iniciar com nodemon (hot reload)
+CMD ["npm", "run", "dev"]

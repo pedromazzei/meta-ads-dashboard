@@ -4,9 +4,23 @@ Dashboard para visualização de métricas de campanhas Meta Ads (Facebook/Insta
 
 ## 🚀 Início Rápido
 
+### Opção 1: Docker (Recomendado) 🐳
+
+**Vantagens:** Isolado, versionado, consistente, sem conflitos de dependências.
+
+```bash
+cd ~/projects/meta-ads-dashboard
+docker-compose up
+```
+
+Acesse: http://localhost:3000
+
+Para parar: `Ctrl+C` ou `docker-compose down`
+
+### Opção 2: Local (Script Automático)
+
 **Primeira vez ou após reiniciar o computador?**
 
-Execute no terminal:
 ```bash
 cd ~/projects/meta-ads-dashboard && ./start.sh
 ```
@@ -18,24 +32,110 @@ O script irá:
 - ✅ Iniciar backend (porta 3001) e frontend (porta 3000)
 - ✅ Abrir o dashboard automaticamente no navegador
 
-**📖 Tutorial Completo**: Consulte o guia detalhado em `~/obsidian_vault_agencia/Meta Ads Dashboard - Tutorial de Inicialização.md` para troubleshooting, configuração de token, atalhos e mais.
+### 📖 Documentação Completa
+
+- **Tutorial Obsidian**: `~/obsidian_vault_agencia/Meta Ads Dashboard - Tutorial de Inicialização.md`
+- **GitHub**: https://github.com/pedromazzei/meta-ads-dashboard
+- **Git + Docker**: Ver seções abaixo
+
+## 🐳 Docker - Guia Rápido
+
+### Desenvolvimento (com hot reload)
+```bash
+# Iniciar containers
+docker-compose up
+
+# Iniciar em background
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f
+
+# Parar containers
+docker-compose down
+
+# Reconstruir imagens (após mudanças no package.json)
+docker-compose up --build
+```
+
+### Produção
+```bash
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+**Hot Reload:** Edite arquivos localmente e veja mudanças instantaneamente no container! 🔥
+
+## 📦 Git - Versionamento
+
+### Comandos Básicos
+```bash
+# Ver status
+git status
+
+# Adicionar mudanças
+git add .
+
+# Criar commit
+git commit -m "Sua mensagem"
+
+# Enviar para GitHub
+git push
+
+# Baixar mudanças
+git pull
+
+# Ver histórico
+git log --oneline
+```
+
+### Reverter Erros
+```bash
+# Descartar mudanças não commitadas
+git checkout -- arquivo.js
+
+# Voltar para commit anterior (mantém mudanças)
+git reset HEAD~1
+
+# Voltar para commit específico
+git reset --hard abc1234
+```
+
+### Branches
+```bash
+# Criar branch para testar algo
+git checkout -b feature/nova-feature
+
+# Voltar para main
+git checkout main
+
+# Fazer merge da branch
+git merge feature/nova-feature
+```
 
 ## Estrutura do Projeto
 
 ```
 meta-ads-dashboard/
-├── backend/          # Servidor Node.js/Express
-│   ├── server.js     # API que integra com Meta Marketing API
+├── backend/              # Servidor Node.js/Express
+│   ├── server.js         # API que integra com Meta Marketing API
 │   ├── package.json
-│   └── .env.example
+│   ├── .env.example
+│   ├── Dockerfile        # Produção
+│   └── Dockerfile.dev    # Desenvolvimento
 │
-├── frontend/         # Dashboard React
+├── frontend/             # Dashboard React
 │   ├── src/
-│   │   ├── App.js    # Componente principal
+│   │   ├── App.js        # Componente principal
 │   │   └── index.js
 │   ├── public/
-│   └── package.json
+│   ├── package.json
+│   ├── Dockerfile        # Produção (Nginx)
+│   └── Dockerfile.dev    # Desenvolvimento
 │
+├── docker-compose.yml    # Orquestração (dev)
+├── docker-compose.prod.yml  # Orquestração (prod)
+├── .gitignore
+├── .dockerignore
 └── README.md
 ```
 

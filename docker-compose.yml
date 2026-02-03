@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Backend - Node.js/Express
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: meta-ads-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      # Hot reload - monta código local no container
+      - ./backend:/app
+      # Exclui node_modules do host (usa do container)
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+    networks:
+      - meta-ads-network
+
+  # Frontend - React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: meta-ads-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      # Hot reload - monta código local no container
+      - ./frontend:/app
+      # Exclui node_modules do host (usa do container)
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_BACKEND_URL=http://localhost:3001
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - meta-ads-network
+    stdin_open: true
+    tty: true
+
+networks:
+  meta-ads-network:
+    driver: bridge

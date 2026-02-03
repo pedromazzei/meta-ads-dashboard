@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # Backend - Node.js/Express (Produção)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: meta-ads-backend-prod
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    env_file:
+      - ./backend/.env
+    restart: always
+    networks:
+      - meta-ads-network
+
+  # Frontend - React (Produção com Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: meta-ads-frontend-prod
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - meta-ads-network
+
+networks:
+  meta-ads-network:
+    driver: bridge
